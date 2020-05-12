@@ -1,0 +1,14 @@
+FROM node:12-alpine
+# Create app diectory
+WORKDIR /app
+
+# Install dependencies
+COPY package*.json ./
+
+RUN npm install -g nodemon && npm install
+
+# Bundle app source
+COPY . .
+
+EXPOSE 8000
+CMD ["npm", "run", "start"]
