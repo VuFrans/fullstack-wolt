@@ -1,0 +1,5 @@
+# Ignore backend node modules
+/backend/node_modules
+
+# Ignore frontend node modules
+/frontend/node_modules
