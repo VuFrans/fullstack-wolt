@@ -3,6 +3,7 @@ import axios from 'axios';
 import Card from './Card';
 import '../styles/HomePage.css';
 import TextField from '@material-ui/core/TextField';
+import Fab from './ScrollTopButton';
 
 export default function HomePage() {
   const URL = 'http://localhost:8000/api/restaurants';
@@ -54,6 +55,7 @@ export default function HomePage() {
           <Card key={i} restaurant={restaurant} />
         ))}
       </div>
+      <Fab />
     </div>
   );
 }
