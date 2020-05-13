@@ -2,6 +2,12 @@
   border-radius: 8px;
   box-shadow: 0 4px 10px 0 rgba(32, 33, 37, 0.06);
   margin: 15px;
+  overflow: hidden;
+}
+
+.grid-item:hover > .image-container img {
+  transition: transform 300ms ease-in-out;
+  transform: scale(1.05);
 }
 
 .image-container {
