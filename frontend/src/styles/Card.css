@@ -1,7 +1,7 @@
 .grid-item {
   border-radius: 8px;
   box-shadow: 0 4px 10px 0 rgba(32, 33, 37, 0.06);
-  margin: 10px;
+  margin: 15px;
 }
 
 .image-container {
@@ -9,7 +9,9 @@
   position: relative;
   overflow: hidden;
   border-radius: 10px 10px 0 0;
+  border: 1px solid #fffffff3;
   margin-right: -0.1em;
+  border-bottom: none;
 }
 
 .image-container img {
@@ -19,10 +21,6 @@
 }
 
 .text-container {
-  border: 1px solid #e4e4e4;
-  border-top: none;
-  border-radius: 0 0 8px 8px;
-  width: 100%;
   font-size: 100%;
 }
 
