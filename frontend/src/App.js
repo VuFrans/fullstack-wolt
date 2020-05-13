@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './styles/App.css';
+import Card from './components/Card';
 
 export default function App() {
   const URL = 'http://localhost:8000/api/restaurants';
@@ -21,14 +22,7 @@ export default function App() {
     <div className="App">
       <h1>Fullstack Project</h1>
       {state.map((restaurant, i) => (
-        <div>
-          <img
-            src={restaurant.image}
-            alt={restaurant.name}
-            style={{ height: 200, width: 300 }}
-          />
-          <p>{restaurant.name}</p>
-        </div>
+        <Card key={i} restaurant={restaurant} />
       ))}
     </div>
   );
