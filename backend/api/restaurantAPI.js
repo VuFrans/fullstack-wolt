@@ -6,4 +6,8 @@ router.get('/restaurants', (req, res) => {
   res.status(200).send(restaurantService.getAllRestaurants());
 });
 
+router.get('/restaurants/tags', (req, res) => {
+  res.status(200).send(restaurantService.getAllRestaurantsTags());
+});
+
 module.exports = router;

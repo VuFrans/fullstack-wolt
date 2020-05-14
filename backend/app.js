@@ -5,7 +5,7 @@ const morgan = require('morgan');
 const port = 8000;
 
 app.use(cors());
-app.use(morgan());
+app.use(morgan('dev'));
 
 const restaurantApi = require('./api/restaurantAPI');
 
