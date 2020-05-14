@@ -39,12 +39,12 @@ export default function HomePage() {
     <div className="root">
       <div className="header">
         <h1>Fullstack Project</h1>
-        <div style={{ paddingTop: 20 }}>
+        <div className="search-bar">
           <TextField
             size="small"
             type="text"
             id="outlined-basic"
-            label="Restaurant"
+            label="Hae ravintola"
             variant="outlined"
             onChange={(event) => filterRestaurants(event.target.value)}
           />

@@ -9,6 +9,14 @@
 }
 
 @media screen and (max-width: 640px) {
+  .header {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 150px;
+  }
+
   .grid-container {
     grid-template-columns: 1fr !important;
   }
@@ -31,5 +39,9 @@
 }
 
 .header h1 {
-  padding-left: 30px;
+  padding-left: 1em;
+}
+
+.search-bar {
+  padding-top: 4%;
 }
