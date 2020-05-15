@@ -45,3 +45,14 @@
 .search-bar {
   padding-top: 4%;
 }
+
+.MuiInputBase-root {
+  height: 5vh;
+  border-radius: 4px 0 0 4px !important;
+}
+
+.MuiButtonBase-root {
+  height: 5vh;
+  border-radius: 0 4px 4px 0 !important;
+  font-weight: 300 !important;
+}
