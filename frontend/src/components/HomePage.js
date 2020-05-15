@@ -89,10 +89,11 @@ export default function HomePage() {
             variant="outlined"
             onChange={(event) => filterRestaurants(event.target.value)}
           />
-          <Button variant="outlined" size="large" onClick={handleClick}>
-            Suodattimet
-          </Button>
-          {selected.length > 0 && (
+          {selected.length <= 0 ? (
+            <Button variant="outlined" size="large" onClick={handleClick}>
+              Suodattimet
+            </Button>
+          ) : (
             <Button
               variant="outlined"
               color="secondary"
