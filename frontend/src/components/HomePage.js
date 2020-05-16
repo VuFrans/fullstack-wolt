@@ -5,9 +5,10 @@ import '../styles/HomePage.css';
 import TextField from '@material-ui/core/TextField';
 import Fab from './ScrollTopButton';
 import FilterBar from './FilterBar';
+import { Button } from '@material-ui/core';
 
 export default function HomePage() {
-  const URL = 'http://localhost:8000/api/restaurants';
+  const baseUrl = 'http://localhost:8000/api';
 
   const [state, setState] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
@@ -21,7 +22,7 @@ export default function HomePage() {
   }, []);
 
   const getRestaurants = async () => {
-    const response = await axios.get(URL);
+    const response = await axios.get(`${baseUrl}/restaurants`);
     const data = response.data;
     setState(data);
     setRestaurants(data);
@@ -49,10 +50,11 @@ export default function HomePage() {
   };
 
   const handleOpen = () => setOpen(true);
+
   const handleClose = () => setOpen(false);
 
   const getRestaurantsTags = async () => {
-    const response = await axios.get(`${URL}/tags`);
+    const response = await axios.get(`${baseUrl}/restaurants/tags`);
     const data = response.data;
     setTags(data);
   };
@@ -63,11 +65,28 @@ export default function HomePage() {
     handleClose();
   };
 
+  const getNearbyRestaurants = () => {
+    setSelected([]);
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const response = await axios.get(
+        `${baseUrl}/search?q&lat=${position.coords.latitude}&lon=${position.coords.longitude}`
+      );
+      const data = response.data;
+      setState(data);
+    });
+  };
+
+  const getAllRestaurants = (
+    <Button variant="outlined" size="large" onClick={removeFilters}>
+      Näytä kaikki ravintolat
+    </Button>
+  );
   return (
     <div className="root">
       <div className="header">
         <h1>New Wolt</h1>
         <div className="search-bar">
+          <Button onClick={getNearbyRestaurants}>HAE LÄHELTÄ (3KM)</Button>
           <TextField
             size="small"
             type="text"
@@ -89,6 +108,14 @@ export default function HomePage() {
         </div>
       </div>
       <div className="grid-container">
+        {state.length === 0 ? (
+          <>
+            <h1>Läheltäsi ei löydy ravintoloita</h1>
+            {getAllRestaurants}
+          </>
+        ) : (
+          state !== restaurants && getAllRestaurants
+        )}
         {state.map((restaurant, i) => (
           <Card key={i} restaurant={restaurant} />
         ))}

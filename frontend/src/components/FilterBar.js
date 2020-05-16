@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React from 'react';
 import { Button } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -21,7 +21,7 @@ export default function FilterBar(props) {
   } = props;
 
   return (
-    <Fragment>
+    <>
       {selected.length <= 0 ? (
         <Button variant="outlined" size="large" onClick={handleOpen}>
           Suodattimet
@@ -65,6 +65,6 @@ export default function FilterBar(props) {
           </Button>
         </DialogActions>
       </Dialog>
-    </Fragment>
+    </>
   );
 }

@@ -6,7 +6,6 @@ const queryValidator = (field) => {
     const queryArray = Object.keys(req.query);
 
     for (let key in queryArray) {
-      console.log('GOES TO FOR');
       if (!values.includes(queryArray[key])) {
         console.log('Invalid query');
         invalidQuery = true;
@@ -19,7 +18,6 @@ const queryValidator = (field) => {
       err.statusCode = 400;
       next(err);
     } else {
-      console.log('GOES NEXT');
       next();
     }
   };
