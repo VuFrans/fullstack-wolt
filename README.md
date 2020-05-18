@@ -1,6 +1,6 @@
 # Full-Stack Project
 
-[A web application](http://vufrans.me:5000) that displays list of restaurants. Currently list of restaurants are limited. The application can fetch nearby restaurants that are within 3 kilometers.
+A wolt-like web application that displays list of restaurants. Currently list of restaurants are limited. The application can fetch nearby restaurants that are within 3 kilometers.
 
 ## Requirements
 
@@ -13,11 +13,31 @@ At root run the following command to start the app in the development mode.
 
 `Docker-compose up`
 
-Access deployed frontend in
-http://vufrans.me:5000
+## Core Structure
 
-Access deployed backend in
-http://vufrans.me:8000/api
+    Fullstack-Wolt
+      │
+      ├── backend
+      │   └── api
+      │       > NodeJS
+      │       > PORT 8000
+      │       > http://example.com:8000
+      │
+      ├── frontend
+      │   └── app
+      │       └── web
+      │           > React
+      │           > Single page application
+      │           > PORT 3000
+      │           > http://example.com:3000
+      │
+      │
+      ├── Docker Compose
+      │
+      │
+      └── README.md (you are here)
+
+## [Live Demo](http://vufrans.me:3000)
 
 ### Built using
 
