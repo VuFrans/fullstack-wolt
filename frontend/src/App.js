@@ -6,8 +6,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/(|home)" component={HomePage} />
-        <Route render={() => <h1>Page not found</h1>} />
+        <Route render={() => <HomePage />} />
       </Switch>
     </BrowserRouter>
   );
