@@ -8,7 +8,10 @@ import FilterBar from './FilterBar';
 import { Button } from '@material-ui/core';
 
 export default function HomePage() {
-  const baseUrl = 'http://vufrans.me:8000/api';
+  let baseUrl =
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:8000/api'
+      : '/api';
 
   const [state, setState] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
