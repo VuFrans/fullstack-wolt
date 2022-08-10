@@ -37,7 +37,6 @@ At root run the following command to start the app in the development mode.
       │
       └── README.md (you are here)
 
-## [Live Demo](http://vufrans.me:3000)
 
 ### Built using
 
