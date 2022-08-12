@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Card from './Card';
-import '../styles/HomePage.css';
+import Card from '../Card/Card.jsx';
+import './HomePage.css';
 import TextField from '@material-ui/core/TextField';
-import Fab from './ScrollTopButton';
-import FilterBar from './FilterBar';
+import Fab from '../StyledComponents/ScrollTopButton';
+import FilterBar from '../StyledComponents/FilterBar';
 import { Button } from '@material-ui/core';
 
 export default function HomePage() {
