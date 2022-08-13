@@ -1,127 +1,141 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Card from '../Card/Card.jsx';
-import './HomePage.css';
+
+import { Button } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
+
+import Card from '../Card/Card.jsx';
 import Fab from '../StyledComponents/ScrollTopButton';
 import FilterBar from '../StyledComponents/FilterBar';
-import { Button } from '@material-ui/core';
+import { 
+  getRestaurantsApi,
+  getRestaurantsTagsApi,
+  getNearbyRestaurantsApi,
+} from '../../api/restaurants-api.js';
 
-export default function HomePage() {
-  let baseUrl =
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:8000/api'
-      : '/api';
+import './HomePage.css';
 
-  const [state, setState] = useState([]);
-  const [restaurants, setRestaurants] = useState([]);
-  const [open, setOpen] = useState(false);
+export const HomePage = () => {
+  const [restaurantsData, setRestaurantsData] = useState([]);
+  const [renderedRestaurants, setRenderedRestaurants] = useState([]);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [tags, setTags] = useState([]);
-  const [selected, setSelected] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
+
+  const hasRestaurants = renderedRestaurants?.length > 0;
+
+  const resetRestaurantState = () => setRenderedRestaurants(restaurantsData);
+  const toggleFilterModal = () => setIsFilterModalOpen(!isFilterModalOpen);
+
+  const getRestaurants = async () => {
+    const restaurants = await getRestaurantsApi();
+    
+    setRestaurantsData(restaurants);
+    setRenderedRestaurants(restaurants);
+  };
+
+  const getRestaurantsTags = async () => {
+    const restaurantTags = await getRestaurantsTagsApi();
+
+    setTags(restaurantTags);
+  };
+
+  const getNearbyRestaurants = async () => {
+    const nearbyRestaurants = await getNearbyRestaurantsApi();
+
+    setSelectedTags([]);
+    setRenderedRestaurants(nearbyRestaurants);
+  };
+
+  const filterRestaurants = (event) => {
+    const { value } = event.target;
+    const formattedValue = value.trim();
+
+    if (formattedValue) {
+      const copiedRestaurants = [...restaurantsData];
+      const filteredRestaurants = copiedRestaurants.filter((restaurant) =>
+        restaurant.name.toLowerCase().includes(value.toLowerCase())
+      );
+
+      setRenderedRestaurants(filteredRestaurants);
+    } else {
+      resetRestaurantState();
+    }
+  };
+
+  const filterRestaurantsByTags = () => {
+    const copiedRestaurants = [...restaurantsData];
+    const filteredRestaurants = copiedRestaurants.filter((restaurant) =>
+      selectedTags.some((tag) => restaurant.tags.includes(tag))
+    );
+
+    setRenderedRestaurants(filteredRestaurants);
+    toggleFilterModal();
+  };
+
+  const cleanUpFunction = () => {
+    setSelectedTags([]);
+    setIsFilterModalOpen(false);
+    resetRestaurantState();
+  };
+
+  const getAllRestaurantsButton = (
+    <Button
+      onClick={() => cleanUpFunction()}
+      size="large"
+      variant="outlined"
+    >
+      Näytä kaikki ravintolat
+    </Button>
+  );
+
+  const displayAvailableRestaurants = () => {
+    if (hasRestaurants) {
+      return renderedRestaurants?.map((restaurant, i) => (
+        <Card key={i} restaurant={restaurant} />
+      ))
+    }
+  };
 
   useEffect(() => {
     getRestaurants();
     getRestaurantsTags();
   }, []);
 
-  const getRestaurants = async () => {
-    const response = await axios.get(`${baseUrl}/restaurants`);
-    const data = response.data;
-    setState(data);
-    setRestaurants(data);
-  };
-
-  const filterRestaurants = (value) => {
-    const hasValue = value.trim();
-
-    if (hasValue) {
-      const filteredRestaurants = state.filter((restaurant) =>
-        restaurant.name.toLowerCase().includes(value.toLowerCase())
-      );
-      setState(filteredRestaurants);
-    } else {
-      setState(restaurants);
-    }
-  };
-
-  const filterRestaurantsByTags = () => {
-    const filterTag = state.filter((restaurant) =>
-      selected.some((tag) => restaurant.tags.includes(tag))
-    );
-    setState(filterTag);
-    handleClose();
-  };
-
-  const handleOpen = () => setOpen(true);
-
-  const handleClose = () => setOpen(false);
-
-  const getRestaurantsTags = async () => {
-    const response = await axios.get(`${baseUrl}/restaurants/tags`);
-    const data = response.data;
-    setTags(data);
-  };
-
-  const removeFilters = () => {
-    setState(restaurants);
-    setSelected([]);
-    handleClose();
-  };
-
-  const getNearbyRestaurants = () => {
-    setSelected([]);
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      const response = await axios.get(
-        `${baseUrl}/search?q&lat=${position.coords.latitude}&lon=${position.coords.longitude}`
-      );
-      const data = response.data;
-      setState(data);
-    });
-  };
-
-  const getAllRestaurants = (
-    <Button variant="outlined" size="large" onClick={removeFilters}>
-      Näytä kaikki ravintolat
-    </Button>
-  );
   return (
     <div className="root">
       <div className="header">
         <h1>New Wolt</h1>
         <div className="search-bar">
-          <Button onClick={getNearbyRestaurants}>HAE LÄHELTÄ (3KM)</Button>
+          <Button onClick={getNearbyRestaurants}>
+            HAE LÄHELTÄ (3KM)
+          </Button>
           <TextField
-            size="small"
-            type="text"
             id="outlined-basic"
             label="Hae ravintola"
+            onChange={filterRestaurants}
+            size="small"
+            type="text"
             variant="outlined"
-            onChange={(event) => filterRestaurants(event.target.value)}
           />
           <FilterBar
-            tags={tags}
-            removeFilters={removeFilters}
+            cleanUpFunction={cleanUpFunction}
             filterRestaurantsByTags={filterRestaurantsByTags}
-            handleOpen={handleOpen}
-            handleClose={handleClose}
-            open={open}
-            selected={selected}
-            setSelected={setSelected}
+            handleOpen={toggleFilterModal}
+            open={isFilterModalOpen}
+            selectedTags={selectedTags}
+            setSelectedTags={setSelectedTags}
+            tags={tags}
           />
         </div>
       </div>
       <div className="grid-container">
-        {state.length === 0 ? (
+        {hasRestaurants ? null : (
           <>
             <h1>Läheltäsi ei löydy ravintoloita</h1>
-            {getAllRestaurants}
+            {getAllRestaurantsButton}
           </>
-        ) : (
-          state !== restaurants && getAllRestaurants
         )}
-        {state.map((restaurant, i) => (
-          <Card key={i} restaurant={restaurant} />
-        ))}
+        {displayAvailableRestaurants()}
       </div>
       <Fab />
     </div>

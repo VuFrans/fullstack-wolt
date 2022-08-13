@@ -1,8 +1,8 @@
 .grid-item {
   border-radius: 8px;
   box-shadow: 0 4px 10px 0 rgba(32, 33, 37, 0.06);
-  margin: 15px;
   overflow: hidden;
+  margin: 15px;
 }
 
 .grid-item:hover > .image-container img {
@@ -11,19 +11,19 @@
 }
 
 .image-container {
+  border: 1px solid #fffffff3;
+  border-radius: 10px 10px 0 0;
+  border-bottom: none;
+  margin-right: -0.1em;
+  overflow: hidden;
   padding-bottom: 60%;
   position: relative;
-  overflow: hidden;
-  border-radius: 10px 10px 0 0;
-  border: 1px solid #fffffff3;
-  margin-right: -0.1em;
-  border-bottom: none;
 }
 
 .image-container img {
-  width: 100%;
   height: 100%;
   position: absolute;
+  width: 100%;
 }
 
 .text-container {
@@ -41,6 +41,6 @@
 
 .bottom-card {
   border-top: 2px dotted #e4e4e4;
-  padding: 1rem;
   font-weight: 300;
+  padding: 1rem;
 }

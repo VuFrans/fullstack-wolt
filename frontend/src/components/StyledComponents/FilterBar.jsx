@@ -1,66 +1,87 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import { 
+  Button,
+  Checkbox,
+  Dialog, 
+  DialogActions, 
+  DialogContent, 
+  DialogTitle, 
+  FormControl, 
+  FormGroup, 
+  FormControlLabel,
+ } from '@material-ui/core';
 
 export default function FilterBar(props) {
   const {
-    tags,
-    removeFilters,
+    cleanUpFunction,
     filterRestaurantsByTags,
     handleOpen,
     open,
-    selected,
-    setSelected,
+    selectedTags,
+    setSelectedTags,
+    tags,
   } = props;
+  
+  const hasTags = tags?.length > 0;
 
   return (
     <>
-      {selected.length <= 0 ? (
-        <Button variant="outlined" size="large" onClick={handleOpen}>
-          Suodattimet
+      {selectedTags.length <= 0 ? (
+        <Button
+          onClick={handleOpen}
+          size="large"
+          variant="outlined"
+        >
+            Suodattimet
         </Button>
       ) : (
         <Button
-          variant="outlined"
           color="secondary"
+          onClick={cleanUpFunction}
           size="large"
-          onClick={removeFilters}
+          variant="outlined"
         >
           Poista suodattimet
         </Button>
       )}
-      <Dialog open={open} onClose={removeFilters} fullWidth="md">
-        <DialogTitle id="form-dialog-title">Ruokatyylit</DialogTitle>
+      <Dialog
+        open={open}
+        onClose={cleanUpFunction}
+        fullWidth="md"
+      >
+        <DialogTitle id="form-dialog-title">
+          Ruokatyylit
+        </DialogTitle>
         <DialogContent>
           <FormControl>
             <FormGroup>
-              {tags.map((tag, index) => (
+              {hasTags ? tags?.map((tag, index) => (
                 <FormControlLabel
                   key={index}
                   control={
                     <Checkbox
                       name={tag}
-                      onChange={() => setSelected([...selected, tag])}
+                      onChange={() => setSelectedTags([...selectedTags, tag])}
                     />
                   }
                   label={tag}
                 />
-              ))}
+              ))
+            : null}
             </FormGroup>
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={removeFilters} color="secondary">
+          <Button
+            color="secondary"
+            onClick={cleanUpFunction}
+          >
             Peruuta
           </Button>
-          <Button onClick={filterRestaurantsByTags} color="primary">
+          <Button 
+            color="primary"
+            onClick={filterRestaurantsByTags}
+          >
             Hae
           </Button>
         </DialogActions>
